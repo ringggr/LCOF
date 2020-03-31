@@ -120,4 +120,24 @@ public class Solution {
 
         return now;
     }
+
+
+    public int fib(int n) {
+        if (n == 0) {
+            return 0;
+        }
+        if (n == 1) {
+            return 1;
+        }
+        int[] f = {0, 1};
+        int i = 2;
+        int tag = 0;
+        int result = 0;
+        while (i++ <= n) {
+            f[tag] = (int)(f[0] % (1e9+7)) + (int)(f[1] % (1e9+7));
+            result = f[tag];
+            tag = (tag == 0 ? 1 : 0);
+        }
+        return (int) (result % (1e9 + 7));
+    }
 }
