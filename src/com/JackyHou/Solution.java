@@ -164,4 +164,26 @@ public class Solution {
         return (int) (result % (1e9 + 7));
     }
 
+    // 11. 旋转数组的最小数字
+    public int minArray(int[] numbers) {
+        if (numbers.length == 0) {
+            return 0;
+        }
+
+        int first = numbers[0];
+        if (numbers.length == 1) {
+            return first;
+        }
+
+        int last = first;
+        for (int i = 1; i < numbers.length; i++) {
+            if (numbers[i] < last) {
+                return numbers[i];
+            }
+            else {
+                last = numbers[i];
+            }
+        }
+        return first;
+    }
 }
