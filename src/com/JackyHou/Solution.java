@@ -140,4 +140,28 @@ public class Solution {
         }
         return (int) (result % (1e9 + 7));
     }
+
+    // 10-II 青蛙跳台阶问题 斐波那契数列变形
+    public int numWays(int n) {
+        if (n == 0) {
+            return 1;
+        }
+        if (n == 1) {
+            return 1;
+        }
+        if (n == 2) {
+            return 2;
+        }
+        int[] f = {1, 2};
+        int i = 3;
+        int tag = 0;
+        int result = 0;
+        while (i++ <= n) {
+            f[tag] = (int)(f[0] % (1e9+7)) + (int)(f[1] % (1e9+7));
+            result = f[tag];
+            tag = (tag == 0 ? 1 : 0);
+        }
+        return (int) (result % (1e9 + 7));
+    }
+
 }
