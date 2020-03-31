@@ -186,4 +186,94 @@ public class Solution {
         }
         return first;
     }
+
+    // 12. 矩阵中的路径
+    public boolean exist(char[][] board, String word) {
+        int[][] went;
+        int matched = 0; // 当前匹配到第几个字符
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] == word.charAt(0)) {
+                    // System.out.printf("%s %d %d\n", board[i][j], i, j);
+                    went = new int[board.length][board[0].length];
+                    went[i][j] = 1;
+                    if (my_match(board, went, word, i, j, 1)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean my_match(char[][] board, int[][] went, String word, int row, int col, int matched) {
+        // System.out.printf("Get in a match function, matched: %d.\n", matched);
+        if (matched == word.length()) {
+            // System.out.println("bingo!");
+            return true;
+        }
+        // 可以使用更简洁的写法：进入每层时统一判断坐标合法性，而不是这样分方向单独判断。
+        // 上
+        if (row != 0) {
+            if (went[row - 1][col] == 0) {
+                // System.out.printf("matched: %d. 上\n", matched);
+                if (board[row - 1][col] == word.charAt(matched)) {
+                    // System.out.printf("%s %d %d\n", board[row - 1][col], row - 1, col);
+                    went[row - 1][col] = 1;
+                    if (my_match(board, went, word, row - 1, col, matched + 1)) {
+                        return true;
+                    }
+                    went[row - 1][col] = 0;
+                }
+            }
+        }
+
+        // 下
+        if (row + 1 < board.length) {
+            if (went[row + 1][col] == 0) {
+                // System.out.printf("matched: %d. 下\n", matched);
+                if (board[row + 1][col] == word.charAt(matched)) {
+                    // System.out.printf("%s %d %d\n", board[row + 1][col], row + 1, col);
+                    went[row + 1][col] = 1;
+                    if (my_match(board, went, word, row + 1, col, matched + 1)) {
+                        return true;
+                    }
+                    went[row + 1][col] = 0;
+                }
+            }
+        }
+
+        // 左
+        if (col != 0) {
+            if (went[row][col - 1] == 0) {
+                // System.out.printf("matched: %d. 左\n", matched);
+                if (board[row][col - 1] == word.charAt(matched)) {
+                    // System.out.printf("%s %d %d\n", board[row][col - 1], row, col - 1);
+                    went[row][col - 1] = 1;
+                    if (my_match(board, went, word, row, col - 1, matched + 1) ) {
+                        return true;
+                    }
+                    went[row][col - 1] = 0;
+                }
+            }
+        }
+
+        // 右
+        if (col + 1 < board[0].length) {
+            if (went[row][col + 1] == 0) {
+                // System.out.printf("matched: %d. 右\n", matched);
+                if (board[row][col + 1] == word.charAt(matched)) {
+                    // System.out.printf("%s %d %d\n", board[row][col + 1], row, col + 1);
+                    went[row][col + 1] = 1;
+                    if (my_match(board, went, word, row, col + 1, matched + 1)) {
+                        return true;
+                    }
+                    went[row][col + 1] = 0;
+                }
+            }
+        }
+
+        return false;
+    }
 }
