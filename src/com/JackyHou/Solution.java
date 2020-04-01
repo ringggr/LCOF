@@ -308,4 +308,33 @@ public class Solution {
         }
         return result;
     }
+
+    // 14-I 剪绳子
+    public int cuttingRope(int n) {
+        /*
+         * 10: 3, 3, 4
+         * 30: 10, 10, 10----7, 7, 8, 8
+         */
+        if (n == 2) return 1;
+        if (n == 3) return 2;
+        int tag = 0;
+        for (int i = 2; i <= n / 2; i++) {
+            int temp = multiBySplit(n, i);
+            if (temp > tag) tag = temp;
+        }
+        return tag;
+    }
+
+    private int multiBySplit(int n, int split) {
+//        int r = n;
+        int multi = 1;
+        int temp;
+        while (split > 0) {
+            temp = n / split;
+            n = n - temp;
+            multi *= temp;
+            split--;
+        }
+        return multi;
+    }
 }
