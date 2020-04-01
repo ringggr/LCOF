@@ -276,4 +276,36 @@ public class Solution {
 
         return false;
     }
+
+    // 13. 机器人的运动范围
+    public int movingCount(int m, int n, int k) {
+        int[][] visited = new int[m][n];
+        int count;
+        count = dfs(0, 0, visited, k);
+        return count;
+    }
+
+    private int dfs(int row, int col, int[][] visited, int k) {
+        if (row < 0 || row >= visited.length || col < 0 || col >= visited[0].length || visited[row][col] == 1) {
+            return 0;
+        }
+        int tag = getSum(row) + getSum(col);
+        if (tag > k) return 0;
+        visited[row][col] = 1;
+        int count = 1;
+
+        return count + dfs(row - 1, col, visited, k) +
+                dfs(row + 1, col, visited, k) +
+                dfs(row, col - 1, visited, k) +
+                dfs(row, col + 1, visited, k);
+    }
+
+    private int getSum(int n) {
+        int result = 0;
+        while (n > 0) {
+            result += n % 10;
+            n /= 10;
+        }
+        return result;
+    }
 }
