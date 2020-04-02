@@ -8,14 +8,13 @@ import java.util.Stack;
 public class Solution {
     public int findRepeatNumber(int[] nums) {
         Set<Integer> number = new HashSet<>();
-        for (Integer i: nums
-             ) {
+        for (Integer i : nums
+        ) {
 //            System.out.println(i);
             if (number.contains(i)) {
 //                System.out.println(number.toString() + i);
                 return i;
-            }
-            else {
+            } else {
                 number.add(i);
             }
         }
@@ -50,8 +49,7 @@ public class Solution {
                 result[size++] = '%';
                 result[size++] = '2';
                 result[size++] = '0';
-            }
-            else {
+            } else {
                 result[size++] = s.charAt(i);
             }
         }
@@ -109,8 +107,7 @@ public class Solution {
         for (int i = 1; i < preorder.length; i++) {
             if (temp_left < left_size) {
                 left_preorder[temp_left++] = preorder[i];
-            }
-            else {
+            } else {
                 right_preorder[temp_right++] = preorder[i];
             }
         }
@@ -134,7 +131,7 @@ public class Solution {
         int tag = 0;
         int result = 0;
         while (i++ <= n) {
-            f[tag] = (int)(f[0] % (1e9+7)) + (int)(f[1] % (1e9+7));
+            f[tag] = (int) (f[0] % (1e9 + 7)) + (int) (f[1] % (1e9 + 7));
             result = f[tag];
             tag = (tag == 0 ? 1 : 0);
         }
@@ -157,7 +154,7 @@ public class Solution {
         int tag = 0;
         int result = 0;
         while (i++ <= n) {
-            f[tag] = (int)(f[0] % (1e9+7)) + (int)(f[1] % (1e9+7));
+            f[tag] = (int) (f[0] % (1e9 + 7)) + (int) (f[1] % (1e9 + 7));
             result = f[tag];
             tag = (tag == 0 ? 1 : 0);
         }
@@ -179,8 +176,7 @@ public class Solution {
         for (int i = 1; i < numbers.length; i++) {
             if (numbers[i] < last) {
                 return numbers[i];
-            }
-            else {
+            } else {
                 last = numbers[i];
             }
         }
@@ -251,7 +247,7 @@ public class Solution {
                 if (board[row][col - 1] == word.charAt(matched)) {
                     // System.out.printf("%s %d %d\n", board[row][col - 1], row, col - 1);
                     went[row][col - 1] = 1;
-                    if (my_match(board, went, word, row, col - 1, matched + 1) ) {
+                    if (my_match(board, went, word, row, col - 1, matched + 1)) {
                         return true;
                     }
                     went[row][col - 1] = 0;
@@ -336,5 +332,24 @@ public class Solution {
             split--;
         }
         return multi;
+    }
+
+    // 14-II 剪绳子II
+    public int cuttingRope2(int n) {
+        int rest = n % 3;
+        int m = n / 3;
+
+        long temp = 1; // 必须要用long类型，用int报错
+        for (int i = 0; i < (m - 1); i++) {
+            temp *= 3;
+            temp = temp % (1000000007);
+        }
+        if (rest == 0) {
+            return (int)((temp * 3) % (1e9 + 7));
+        }
+        if (rest == 1) {
+            return (int)((temp * 4) % (1e9 + 7));
+        }
+        return (int)((temp * 6) % (1e9 + 7));
     }
 }
