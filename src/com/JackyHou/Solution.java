@@ -336,6 +336,8 @@ public class Solution {
 
     // 14-II 剪绳子II
     public int cuttingRope2(int n) {
+        if (n <= 3) return n - 1;
+
         int rest = n % 3;
         int m = n / 3;
 
@@ -351,5 +353,80 @@ public class Solution {
             return (int)((temp * 4) % (1e9 + 7));
         }
         return (int)((temp * 6) % (1e9 + 7));
+    }
+
+    // 15. 二进制中1的个数
+    // you need to treat n as an unsigned value
+    public int hammingWeight(int n) {
+        // return Integer.toBinaryString(n).replaceAll("0", "").length();
+
+        int result = 0;
+        while (n != 0) {
+            result += n & 1;
+            n >>>= 1;
+        }
+        return result;
+    }
+
+    // 16. 数值的整数次方
+    public double myPow(double x, int n) {
+        long new_n = n;
+        if (x == 1.0) return 1.0;
+        if (x == -1.0) {
+            if (new_n % 2 == 0) {
+                return 1.0;
+            }
+            else {
+                return -1.0;
+            }
+        }
+        if (new_n < 0) {
+            x = 1.0 / x;
+            new_n = -new_n;
+        }
+
+        double result = 1.0;
+//        System.out.println(n);
+        for (int i = 0; i < new_n && result != 0.0; i++) {
+            result *= x;
+//            System.out.println(result);
+        }
+        return result;
+    }
+
+    // 二进制 & 二分法 快速求幂
+    public double myPow2(double x, int n) {
+        if (x == 1) return 1;
+        if (x == -1.0) {
+            if (n % 2 == 0) {
+                return 1.0;
+            }
+            else {
+                return -1.0;
+            }
+        }
+        long new_n = n;
+        if (n < 0) {
+            new_n *= -1;
+            x = 1 / x;
+        }
+
+        double result = 1.0;
+        while (new_n> 0) {
+            if ((new_n & 1) == 1) result *= x;
+            x *= x;
+            new_n >>= 1;
+        }
+        return result;
+    }
+
+    // 17. 打印从1到最大的n位数
+    public int[] printNumbers(int n) {
+        int length = (int)Math.pow(10, n);
+        int[] res = new int[length - 1];
+        for (int i = 0; i < length - 1; i++) {
+            res[i] = i + 1;
+        }
+        return res;
     }
 }
