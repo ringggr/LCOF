@@ -429,4 +429,31 @@ public class Solution {
         }
         return res;
     }
+
+    // 18. 删除链表的节点
+    /*
+     * Definition for singly-linked list.
+     * public class ListNode {
+     *     int val;
+     *     ListNode next;
+     *     ListNode(int x) { val = x; }
+     * }
+     */
+    public ListNode deleteNode(ListNode head, int val) {
+        if (head.val == val) return head.next;
+
+        ListNode now, passed;
+        now = passed = head;
+
+        while (now != null) {
+            if (now.val == val) {
+                passed.next = now.next;
+                return head;
+            }
+            passed = now;
+            now = now.next;
+        }
+
+        return head;
+    }
 }
