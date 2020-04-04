@@ -1,9 +1,6 @@
 package com.JackyHou;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 public class Solution {
     public int findRepeatNumber(int[] nums) {
@@ -456,4 +453,75 @@ public class Solution {
 
         return head;
     }
+
+    // 19. 正则表达式匹配
+    public boolean isMatch(String s, String p) {
+        if (s.length() == 0) {
+            if (p.length() % 2 != 0) return false;
+            int i = 1;
+            while (i < p.length()) {
+                if (p.charAt(i) != '*') return false;
+                i += 2;
+            }
+            return true;
+        }
+
+        if (p.length() == 0) return false;
+
+        char match = s.charAt(0), relu = p.charAt(0), next = '?';
+        if (p.length() > 1) next = p.charAt(1);
+
+        if (next != '*') {
+            if (match == relu || relu == '.') {
+//                System.out.printf("s length: %d\n", s.length());
+                return isMatch(s.substring(1), p.substring(1));
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            if (match == relu || relu == '.') {
+                return isMatch(s.substring(1), p) || isMatch(s, p.substring(2));
+            }
+            else {
+                return isMatch(s, p.substring(2));
+            }
+        }
+    }
+
+    public boolean isMatchByDP(String A, String B) {
+        int n = A.length(), m = B.length();
+        boolean[][] dp = new boolean[n + 1][m + 1];
+
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= m; j++) {
+                // if B is empty, return false.
+                if (j == 0) {
+                    dp[i][j] = (i == 0); // if A is empty too, return true.
+                }
+                else {
+                    // if B[j] is * right now.
+                    if (B.charAt(j - 1) == '*') {
+                        // do not concern it
+                        if (j >= 2) {
+                            dp[i][j] = dp[i][j] | dp[i][j - 2];
+                        }
+                        // concern it
+                        if (i >= 1 && j >= 2 && (A.charAt(i - 1) == B.charAt(j - 2) || B.charAt(j - 2) == '.')) {
+                            dp[i][j] = dp[i][j] | dp[i - 1][j];
+                        }
+                    }
+                    else { // B[j] is not *
+                        if (i > 0 && (A.charAt(i - 1) == B.charAt(j - 1) || B.charAt(j - 1) == '.')) {
+                            dp[i][j] = dp[i - 1][j - 1];
+                        }
+                    }
+                }
+            }
+        }
+        return dp[n][m];
+    }
+
+
 }
