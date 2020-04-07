@@ -523,5 +523,68 @@ public class Solution {
         return dp[n][m];
     }
 
+    // 20. 表示数值的字符串
+    public boolean isNumber(String s) {
+        boolean res = true;
 
+        char[] n = s.toCharArray();
+
+        boolean hasE = false;
+        boolean dot = false;
+        boolean allSpace = true;
+        for(int i = 0; i < n.length; i++) {
+            if (!isNum(n[i])) {
+                if (n.length == 1) {
+                    return false;
+                }
+                if (n[i] == 'e') {
+                    if (hasE) return false;
+                    hasE = true;
+                    if (i == 0 || (!isNum(n[i - 1]) && n[i - 1] != '.') || i == n.length - 1 || (!isNum(n[i + 1]) && n[i + 1] != '+' && n[i + 1] != '-')) {
+                        return false;
+                    }
+                } else if (n[i] == '-' || n[i] == '+') {
+                    if (i != 0 && n[i - 1] != 'e' && n[i - 1] != ' ' || i == n.length - 1 || (!isNum(n[i + 1]) && n[i + 1] != '.')) {
+//                        System.out.println(n[i + 1]);
+                        return false;
+                    }
+                } else if (n[i] == '.') {
+                    if (dot) return false;
+                    if (hasE) return false;
+                    dot = true;
+                    if ((i != 0 && !isNum(n[i - 1]) && n[i - 1] != '+' && n[i - 1] != '-' && n[i - 1] != ' ') || i != n.length - 1 && (!isNum(n[i + 1]) && n[i + 1] != ' ' && n[i + 1] != 'e')) {
+                        return false;
+                    }
+                    if ((i == 0 && !isNum(n[i + 1])) || (i != 0 && i != n.length - 1 && !isNum(n[i - 1]) && !isNum(n[i + 1])) || (i == n.length - 1 && !isNum(n[i - 1]))) {
+                        return false;
+                    }
+                } else if (n[i] == ' ') {
+                    if (i != 0 && i != n.length - 1) {
+                        if (n[i - 1] != ' ' && n[i + 1] != ' ') {
+                            return false;
+                        }
+                    }
+                }
+                else {
+//                    System.out.println(n[i]);
+                    return false;
+                }
+            }
+            if (n[i] != ' ') {
+                allSpace = false;
+            }
+        }
+        if (allSpace) return false;
+        return res;
+    }
+
+    private boolean isNum(char c) {
+        boolean res = true;
+
+        if (c - '0' > 9 || c - '0' < 0) {
+            return false;
+        }
+
+        return res;
+    }
 }
