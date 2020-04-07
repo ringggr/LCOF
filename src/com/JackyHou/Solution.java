@@ -533,18 +533,18 @@ public class Solution {
         boolean dot = false;
         boolean allSpace = true;
         for(int i = 0; i < n.length; i++) {
-            if (!isNum(n[i])) {
+            if (isNotNum(n[i])) {
                 if (n.length == 1) {
                     return false;
                 }
                 if (n[i] == 'e') {
                     if (hasE) return false;
                     hasE = true;
-                    if (i == 0 || (!isNum(n[i - 1]) && n[i - 1] != '.') || i == n.length - 1 || (!isNum(n[i + 1]) && n[i + 1] != '+' && n[i + 1] != '-')) {
+                    if (i == 0 || (isNotNum(n[i - 1]) && n[i - 1] != '.') || i == n.length - 1 || (isNotNum(n[i + 1]) && n[i + 1] != '+' && n[i + 1] != '-')) {
                         return false;
                     }
                 } else if (n[i] == '-' || n[i] == '+') {
-                    if (i != 0 && n[i - 1] != 'e' && n[i - 1] != ' ' || i == n.length - 1 || (!isNum(n[i + 1]) && n[i + 1] != '.')) {
+                    if (i != 0 && n[i - 1] != 'e' && n[i - 1] != ' ' || i == n.length - 1 || (isNotNum(n[i + 1]) && n[i + 1] != '.')) {
 //                        System.out.println(n[i + 1]);
                         return false;
                     }
@@ -552,10 +552,10 @@ public class Solution {
                     if (dot) return false;
                     if (hasE) return false;
                     dot = true;
-                    if ((i != 0 && !isNum(n[i - 1]) && n[i - 1] != '+' && n[i - 1] != '-' && n[i - 1] != ' ') || i != n.length - 1 && (!isNum(n[i + 1]) && n[i + 1] != ' ' && n[i + 1] != 'e')) {
+                    if ((i != 0 && isNotNum(n[i - 1]) && n[i - 1] != '+' && n[i - 1] != '-' && n[i - 1] != ' ') || i != n.length - 1 && (isNotNum(n[i + 1]) && n[i + 1] != ' ' && n[i + 1] != 'e')) {
                         return false;
                     }
-                    if ((i == 0 && !isNum(n[i + 1])) || (i != 0 && i != n.length - 1 && !isNum(n[i - 1]) && !isNum(n[i + 1])) || (i == n.length - 1 && !isNum(n[i - 1]))) {
+                    if ((i == 0 && isNotNum(n[i + 1])) || (i != 0 && i != n.length - 1 && isNotNum(n[i - 1]) && isNotNum(n[i + 1])) || (i == n.length - 1 && isNotNum(n[i - 1]))) {
                         return false;
                     }
                 } else if (n[i] == ' ') {
@@ -578,11 +578,11 @@ public class Solution {
         return res;
     }
 
-    private boolean isNum(char c) {
-        boolean res = true;
+    private boolean isNotNum(char c) {
+        boolean res = false;
 
         if (c - '0' > 9 || c - '0' < 0) {
-            return false;
+            return true;
         }
 
         return res;
@@ -614,5 +614,17 @@ public class Solution {
             i++;
         }
         return res;
+    }
+
+    // 24. 反转链表
+    public ListNode reverseList(ListNode head) {
+        ListNode pre = null, next;
+        while (head != null) {
+            next = head.next;
+            head.next = pre;
+            pre = head;
+            head = next;
+        }
+        return pre;
     }
 }
