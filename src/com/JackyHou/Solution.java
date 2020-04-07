@@ -627,4 +627,53 @@ public class Solution {
         }
         return pre;
     }
+
+    // 25. 合并两个排序的链表
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if (l1 == null && l2 == null) return null;
+        if (l1 == null) {
+            return l2;
+        }
+        if (l2 == null) {
+            return l1;
+        }
+
+        ListNode i = l1, j = l2;
+        ListNode head = null, pos = null;
+//        head = (l1.val <= l2.val) ? l1 : l2;
+//        pos = head;
+        while (l1 != null && l2 != null) {
+            if (l1.val <= l2.val) {
+                if (head == null) {
+                    head = l1;
+                    pos = head;
+                    l1 = l1.next;
+                }
+                else {
+                    pos.next = l1;
+                    l1 = l1.next;
+                    pos = pos.next;
+                }
+            }
+            else {
+                if (head == null) {
+                    head = l2;
+                    pos = head;
+                    l2 = l2.next;
+                }
+                else {
+                    pos.next = l2;
+                    l2 = l2.next;
+                    pos = pos.next;
+                }
+            }
+        }
+        if (l1 != null) {
+            pos.next = l1;
+        }
+        else {
+            pos.next = l2;
+        }
+        return head;
+    }
 }
