@@ -587,4 +587,32 @@ public class Solution {
 
         return res;
     }
+
+    // 21. 调整数组顺序使奇数在前
+    public int[] exchange(int[] nums) {
+        int[] res = new int[nums.length];
+        int head = 0, rear = nums.length - 1;
+        for (int num : nums) {
+            if (num % 2 == 0) {
+                res[rear--] = num;
+            } else {
+                res[head++] = num;
+            }
+        }
+        return res;
+    }
+
+    // 22. 链表中倒数第k个节点
+    public ListNode getKthFromEnd(ListNode head, int k) {
+        ListNode res = head;
+        int i = 0;
+        while (head != null) {
+            if (i >= k) {
+                res = res.next;
+            }
+            head = head.next;
+            i++;
+        }
+        return res;
+    }
 }
