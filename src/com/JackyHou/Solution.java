@@ -667,4 +667,14 @@ public class Solution {
         }
         return isNowStructure(A.left, B.left) && isNowStructure(A.right, B.right);
     }
+
+    // 27. 二叉树的镜像
+    public TreeNode mirrorTree(TreeNode root) {
+        if (root == null) return root;
+        TreeNode temp = root.left;
+        root.left = mirrorTree(root.right);
+        root.right = mirrorTree(temp);
+        return root;
+    }
+
 }
