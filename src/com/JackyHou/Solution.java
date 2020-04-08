@@ -677,4 +677,38 @@ public class Solution {
         return root;
     }
 
+    // 28. 对称的二叉树
+    public boolean isSymmetric(TreeNode root) {
+        TreeNode mirrorRoot =  mirrorTree2(root);
+        return isSame(root, mirrorRoot);
+    }
+
+    private TreeNode mirrorTree2(TreeNode root) {
+        if (root == null) return null;
+        TreeNode newNode = new TreeNode(root.val);
+        newNode.left = mirrorTree2(root.right);
+        newNode.right = mirrorTree2(root.left);
+        return newNode;
+    }
+
+    private boolean isSame(TreeNode a, TreeNode b) {
+        if (a == null && b == null) {
+            return true;
+        }
+        if (a == null || b == null || a.val != b.val) {
+            return false;
+        }
+        return isSame(a.left, b.left) && isSame(a.right, b.right);
+    }
+
+    // 28. 对称的二叉树
+    public boolean isSymmetric2(TreeNode root) {
+        return root == null || isSym(root.left, root.right);
+    }
+
+    private boolean isSym(TreeNode a, TreeNode b) {
+        if (a == null && b == null) return true;
+        if (a == null || b == null || a.val != b.val) return false;
+        return isSym(a.left, b.right) && isSym(a.right, b.left);
+    }
 }
