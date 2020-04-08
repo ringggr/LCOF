@@ -659,24 +659,12 @@ public class Solution {
     }
 
     private boolean isNowStructure(TreeNode A, TreeNode B) {
-        if (A == null && B == null) {
+        if (B == null) {
             return true;
         }
-        if (A == null || B == null) {
+        if (A == null || A.val != B.val) {
             return false;
         }
-        if (A.val == B.val) {
-            if (B.left == null && B.right == null) {
-                return true;
-            }
-            else {
-                boolean left = B.left == null || isNowStructure(A.left, B.left);
-                boolean right = B.right == null || isNowStructure(A.right, B.right);
-                return left && right;
-            }
-        }
-        else {
-            return false;
-        }
+        return isNowStructure(A.left, B.left) && isNowStructure(A.right, B.right);
     }
 }
