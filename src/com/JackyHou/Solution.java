@@ -648,4 +648,35 @@ public class Solution {
 
         return head.next;
     }
+
+    // 26. 树的子结构
+    public boolean isSubStructure(TreeNode A, TreeNode B) {
+        if (A == null || B == null) return false;
+        if (isNowStructure(A, B)) {
+            return true;
+        }
+        return isSubStructure(A.left, B) || isSubStructure(A.right, B);
+    }
+
+    private boolean isNowStructure(TreeNode A, TreeNode B) {
+        if (A == null && B == null) {
+            return true;
+        }
+        if (A == null || B == null) {
+            return false;
+        }
+        if (A.val == B.val) {
+            if (B.left == null && B.right == null) {
+                return true;
+            }
+            else {
+                boolean left = B.left == null || isNowStructure(A.left, B.left);
+                boolean right = B.right == null || isNowStructure(A.right, B.right);
+                return left && right;
+            }
+        }
+        else {
+            return false;
+        }
+    }
 }
