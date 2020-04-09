@@ -748,6 +748,7 @@ public class Solution {
     }
 
     // 32 - I. 从上到下打印二叉树
+    // 层序遍历
     public int[] levelOrder(TreeNode root) {
         if (root == null) return new int[0];
 
@@ -772,6 +773,19 @@ public class Solution {
     }
 
     // 32 - II. 从上到下打印二叉树 II
+    /*
+        3
+       / \
+      9  20
+        /  \
+       15   7
+    返回其层次遍历结果：
+    [
+      [3],
+      [20,9],
+      [15,7]
+    ]
+     */
     public List<List<Integer>> levelOrder2(TreeNode root) {
         List<List<Integer>> res = new ArrayList<>();
         Queue<TreeNode> level = new LinkedList<>();
@@ -787,9 +801,59 @@ public class Solution {
                         if (aNode.right != null) level.offer(aNode.right);
                     }
                 }
+
                 res.add(temp);
             }
         }
         return res;
+    }
+
+    // 32 - III. 从上到下打印二叉树 III
+    // 偶数行逆序
+    public List<List<Integer>> levelOrder3(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        Queue<TreeNode> level = new LinkedList<>();
+        if (root != null) {
+            level.offer(root);
+            while (!level.isEmpty()) {
+                List<Integer> temp = new ArrayList<>();
+                for (int i = level.size(); i > 0; i--) {
+                    TreeNode aNode = level.poll();
+                    if (aNode != null) {
+                        temp.add(aNode.val);
+                        if (aNode.left != null) level.offer(aNode.left);
+                        if (aNode.right != null) level.offer(aNode.right);
+                    }
+                }
+                if (res.size() % 2 == 1) {
+                    Collections.reverse(temp);
+                }
+                res.add(temp);
+            }
+        }
+        return res;
+    }
+
+    // 33. 二叉搜索树的后序遍历序列
+    public boolean verifyPostorder(int[] postorder) {
+        System.out.println(Arrays.toString(postorder));
+        if (postorder.length <= 3) return true;
+        int root = postorder[postorder.length - 1];
+        int len = 0;
+        boolean tag = true;
+        for (int value : postorder) {
+            if (value < root && tag) {
+                len++;
+//                tag = false;
+            }
+            if (value > root) tag = false;
+            if (value < root && !tag) {
+                return false;
+            }
+        }
+//        if (len <= 3)
+        int[] left = Arrays.copyOf(postorder, len);
+        int[] right = Arrays.copyOfRange(postorder, len, postorder.length - 1);
+        return verifyPostorder(left) && verifyPostorder(right);
     }
 }
