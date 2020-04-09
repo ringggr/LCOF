@@ -729,4 +729,21 @@ public class Solution {
         }
         return res;
     }
+
+    // 31. 栈的压入、弹出序列
+    public boolean validateStackSequences(int[] pushed, int[] popped) {
+        if (pushed.length == 0 && popped.length == 0) return true;
+        if (pushed.length == 0) return false;
+        Stack<Integer> a = new Stack<>();
+        int push = 0, pop = 0;
+        while (push < pushed.length) {
+            a.push(pushed[push++]);
+            while (pop < popped.length && !a.isEmpty() && popped[pop] == a.peek()) {
+                System.out.println(a.peek());
+                a.pop();
+                pop++;
+            }
+        }
+        return a.empty();
+    }
 }
