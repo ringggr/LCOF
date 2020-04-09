@@ -770,4 +770,26 @@ public class Solution {
         }
         return a;
     }
+
+    // 32 - II. 从上到下打印二叉树 II
+    public List<List<Integer>> levelOrder2(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        Queue<TreeNode> level = new LinkedList<>();
+        if (root != null) {
+            level.offer(root);
+            while (!level.isEmpty()) {
+                List<Integer> temp = new ArrayList<>();
+                for (int i = level.size(); i > 0; i--) {
+                    TreeNode aNode = level.poll();
+                    if (aNode != null) {
+                        temp.add(aNode.val);
+                        if (aNode.left != null) level.offer(aNode.left);
+                        if (aNode.right != null) level.offer(aNode.right);
+                    }
+                }
+                res.add(temp);
+            }
+        }
+        return res;
+    }
 }
