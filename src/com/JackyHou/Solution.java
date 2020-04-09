@@ -746,4 +746,28 @@ public class Solution {
         }
         return a.empty();
     }
+
+    // 32 - I. 从上到下打印二叉树
+    public int[] levelOrder(TreeNode root) {
+        if (root == null) return new int[0];
+
+//        int[] a = new int[1001];
+        int i = 0;
+        Queue<Integer> res = new LinkedList<>();
+        Queue<TreeNode> level = new LinkedList<>();
+        level.offer(root);
+        while (!level.isEmpty()) {
+            TreeNode temp = level.poll();
+            res.offer(temp.val);
+            i++;
+            if (temp.left != null) level.offer(temp.left);
+            if (temp.right != null) level.offer(temp.right);
+        }
+        int[] a = new int[i];
+        i = 0;
+        while (!res.isEmpty()) {
+            a[i++] = res.poll();
+        }
+        return a;
+    }
 }
