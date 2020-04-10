@@ -844,16 +844,54 @@ public class Solution {
         for (int value : postorder) {
             if (value < root && tag) {
                 len++;
-//                tag = false;
             }
             if (value > root) tag = false;
             if (value < root && !tag) {
                 return false;
             }
         }
-//        if (len <= 3)
         int[] left = Arrays.copyOf(postorder, len);
         int[] right = Arrays.copyOfRange(postorder, len, postorder.length - 1);
         return verifyPostorder(left) && verifyPostorder(right);
     }
+    // 高级方法：时间复杂度O(n)
+    public boolean verifyPostorder2(int[] postorder) {
+        Stack<Integer> stack = new Stack<>();
+        int root = Integer.MAX_VALUE;
+        for(int i = postorder.length - 1; i >= 0; i--) {
+            if(postorder[i] > root) return false;
+            while(!stack.isEmpty() && stack.peek() > postorder[i])
+                root = stack.pop();
+            stack.add(postorder[i]);
+        }
+        return true;
+    }
+
+    // 34. 二叉树中和为某一值的路径
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+
+        getPath(root, sum, res, 0, temp);
+
+        return res;
+    }
+
+    private void getPath(TreeNode root, int sum, List<List<Integer>> res, int nowSum, List<Integer> nowPath) {
+        if (root != null) {
+            if (root.left == null && root.right == null) {
+                if (nowSum + root.val == sum) {
+                    nowPath.add(root.val);
+                    res.add(new ArrayList<>(nowPath));
+                    nowPath.remove(nowPath.size() - 1);
+                }
+            } else {
+                nowPath.add(root.val);
+                getPath(root.left, sum, res, nowSum + root.val, nowPath);
+                getPath(root.right, sum, res, nowSum + root.val, nowPath);
+                nowPath.remove(nowPath.size() - 1);
+            }
+        }
+    }
+
 }
