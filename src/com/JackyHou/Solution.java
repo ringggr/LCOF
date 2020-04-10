@@ -903,7 +903,7 @@ public class Solution {
         Node pre = new_head;
         Node pos = head.next;
         while (pos != null) {
-            Node temp = new Node(head.val);
+            Node temp = new Node(pos.val);
             pre.next = temp;
             pre = temp;
             map.put(pos, temp);
@@ -918,4 +918,6 @@ public class Solution {
         }
         return new_head;
     }
+
+
 }
