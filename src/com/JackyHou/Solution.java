@@ -894,4 +894,28 @@ public class Solution {
         }
     }
 
+    // 35. 复杂链表的复制
+    public Node copyRandomList(Node head) {
+        if (head == null) return null;
+        Map<Node, Node> map = new HashMap<>();
+        Node new_head = new Node(head.val);
+        map.put(head, new_head);
+        Node pre = new_head;
+        Node pos = head.next;
+        while (pos != null) {
+            Node temp = new Node(head.val);
+            pre.next = temp;
+            pre = temp;
+            map.put(pos, temp);
+            pos = pos.next;
+        }
+        pre = new_head;
+        pos = head;
+        while (pos != null) {
+            pre.random = map.get(pos.random);
+            pos = pos.next;
+            pre = pre.next;
+        }
+        return new_head;
+    }
 }
