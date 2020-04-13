@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class week184 {
+public class Week184 {
 
     public List<String> stringMatching(String[] words) {
         List<String> res = new ArrayList<>();

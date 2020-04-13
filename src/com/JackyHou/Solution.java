@@ -919,5 +919,82 @@ public class Solution {
         return new_head;
     }
 
+    HashMap<Node, Node> visitedHash = new HashMap<>();
+    public Node copyRandomList2(Node head) {
+
+        if (head == null) {
+            return null;
+        }
+
+        // If we have already processed the current node, then we simply return the cloned version of it.
+        if (this.visitedHash.containsKey(head)) {
+            return this.visitedHash.get(head);
+        }
+
+        // Create a new node with the value same as old node. (i.e. copy the node)
+        Node node = new Node(head.val);
+
+        // Save this value in the hash map. This is needed since there might be
+        // loops during traversal due to randomness of random pointers and this would help us avoid
+        // them.
+        this.visitedHash.put(head, node);
+
+        // Recursively copy the remaining linked list starting once from the next pointer and then from
+        // the random pointer.
+        // Thus we have two independent recursive calls.
+        // Finally we update the next and random pointers for the new node created.
+        node.next = copyRandomList2(head.next);
+        node.random = copyRandomList2(head.random);
+
+        return node;
+    }
+
+    // 36. 二叉搜索树与双向链表
+    DeNode pre, head;
+    public DeNode treeToDoublyList(DeNode root) {
+        if (root == null) return null;
+        dfs(root);
+        head.left = pre;
+        pre.right = head;
+        return head;
+    }
+
+    private void dfs(DeNode now) {
+       if (now == null) return ;
+       dfs(now.left);
+       if (pre != null) pre.right = now;
+       else head = now;
+       now.left = pre;
+       pre = now;
+       dfs(now.right);
+    }
+
+    // 38. 字符串的排列
+    List<String> res = new LinkedList<>();
+    char[] c;
+    public String[] permutation(String s) {
+        c = s.toCharArray();
+        dfs(0);
+        return res.toArray(new String[res.size()]);
+    }
+    void dfs(int x) {
+        if(x == c.length - 1) {
+            res.add(String.valueOf(c)); // 添加排列方案
+            return;
+        }
+        HashSet<Character> set = new HashSet<>();
+        for(int i = x; i < c.length; i++) {
+            if(set.contains(c[i])) continue; // 重复，因此剪枝
+            set.add(c[i]);
+            swap(i, x); // 交换，固定此位为 c[i]
+            dfs(x + 1); // 开启固定第 x + 1 位字符
+            swap(i, x); // 恢复交换
+        }
+    }
+    void swap(int a, int b) {
+        char tmp = c[a];
+        c[a] = c[b];
+        c[b] = tmp;
+    }
 
 }
