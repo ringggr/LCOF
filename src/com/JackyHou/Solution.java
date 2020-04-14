@@ -970,31 +970,33 @@ public class Solution {
     }
 
     // 38. 字符串的排列
-    List<String> res = new LinkedList<>();
-    char[] c;
     public String[] permutation(String s) {
-        c = s.toCharArray();
-        dfs(0);
+        char[] chars = s.toCharArray();
+        List<String> res = new ArrayList<>();
+        f(0, chars, res);
         return res.toArray(new String[res.size()]);
     }
-    void dfs(int x) {
-        if(x == c.length - 1) {
-            res.add(String.valueOf(c)); // 添加排列方案
-            return;
+
+    private void f(int now, char[] chars, List<String> res) {
+        if (now == chars.length - 1) {
+            res.add(String.valueOf(chars));
         }
-        HashSet<Character> set = new HashSet<>();
-        for(int i = x; i < c.length; i++) {
-            if(set.contains(c[i])) continue; // 重复，因此剪枝
-            set.add(c[i]);
-            swap(i, x); // 交换，固定此位为 c[i]
-            dfs(x + 1); // 开启固定第 x + 1 位字符
-            swap(i, x); // 恢复交换
+        else {
+            HashSet<Character> uesdChar = new HashSet<>();
+            for (int i = now; i < chars.length; i++) {
+                if (uesdChar.contains(chars[i])) continue;
+                uesdChar.add(chars[i]);
+                swap(i, now, chars);
+                f(now + 1, chars, res);
+                swap(i, now, chars);
+            }
         }
     }
-    void swap(int a, int b) {
-        char tmp = c[a];
-        c[a] = c[b];
-        c[b] = tmp;
+
+    private void swap(int i, int j, char[] chars) {
+        char temp = chars[i];
+        chars[i] = chars[j];
+        chars[j] = temp;
     }
 
 }
