@@ -999,4 +999,38 @@ public class Solution {
         chars[j] = temp;
     }
 
+    // 39. 数组中出现次数超过一半的数字
+    public int majorityElement(int[] nums) {
+        if (nums.length == 0) return 0;
+        HashMap<Integer, Integer> counts = new HashMap<>();
+        int res = 0;
+        for (int num : nums) {
+            if (counts.containsKey(num)) {
+                int temp = counts.get(num);
+                temp++;
+                counts.replace(num, temp);
+                if (temp > nums.length / 2) {
+                    res = num;
+                    break;
+                }
+            } else {
+                counts.put(num, 1);
+            }
+        }
+        return res;
+    }
+
+    public int majorityElement2(int[] nums) {
+        int major = 0, count = 0;
+        for (int num: nums) {
+            if (count == 0) {
+                count++;
+                major = num;
+            }
+            else {
+                count += (major == num ? 1 : -1);
+            }
+        }
+        return major;
+    }
 }
