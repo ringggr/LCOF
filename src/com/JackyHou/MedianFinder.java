@@ -2,44 +2,39 @@ package com.JackyHou;
 
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 // 41. 数据流中的中位数
 public class MedianFinder {
-    ArrayList<Integer> list;
+    PriorityQueue<Integer> maxhead, minhead;
     /** initialize your data structure here. */
     public MedianFinder() {
-        list = new ArrayList<>();
+        minhead = new PriorityQueue<>();
+        maxhead = new PriorityQueue<>((a, b) -> b - a);
+
     }
 
     public void addNum(int num) {
-        if (list.isEmpty()) {
-            list.add(num);
-        }
-        else if (num >= list.get(list.size() - 1)) {
-            list.add(num);
+        if (minhead.size() <= maxhead.size()) {
+            maxhead.add(num);
+            minhead.add(maxhead.poll());
         }
         else {
-            boolean first_time = true;
-            ArrayList<Integer> temp = new ArrayList<>();
-            for (Integer integer : list) {
-                if (integer >= num && first_time) {
-                    temp.add(num);
-                    first_time = false;
-                }
-                temp.add(integer);
-            }
-            list = temp;
+            minhead.add(num);
+            maxhead.add(minhead.poll());
         }
     }
 
     public double findMedian() {
-        System.out.println(list.toString());
-        if (list.size() == 0) return 0;
-        if (list.size() % 2 == 1) {
-            return (double)list.get(list.size() / 2);
+        if (maxhead.size() == minhead.size() && maxhead.size() != 0) {
+            return (double)(minhead.peek() + maxhead.peek()) / 2;
+        }
+        else if (maxhead.size() > minhead.size()) {
+            return (double)maxhead.peek();
         }
         else {
-            return ((double)(list.get(list.size() / 2 - 1) + list.get(list.size() / 2))) / 2;
+            return minhead.isEmpty() ? Double.NaN : minhead.peek();
         }
     }
 }
