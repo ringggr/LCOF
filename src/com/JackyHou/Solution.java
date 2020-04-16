@@ -974,8 +974,10 @@ public class Solution {
         char[] chars = s.toCharArray();
         List<String> res = new ArrayList<>();
         f(0, chars, res);
-        return res.toArray(new String[res.size()]);
+        int size = res.size();
+        return res.toArray(new String[size]);
     }
+
 
     private void f(int now, char[] chars, List<String> res) {
         if (now == chars.length - 1) {
@@ -1065,6 +1067,7 @@ public class Solution {
         while (true) {
             while (++i <= hi && nums[i] < v);
             while (--j >= lo && nums[j] > v);
+
             if (i >= j) {
                 break;
             }
@@ -1090,4 +1093,18 @@ public class Solution {
         return res;
     }
 
+    // 43. 1～n整数中1出现的次数
+    public int countDigitOne(int n) {
+        if (n <= 0) return 0;
+        String temp = String.valueOf(n);
+        int high = temp.charAt(0) - '0';
+        int pow = (int)Math.pow(10, temp.length() - 1);
+        int last = n - high * pow;
+        if (high == 1) {
+            return countDigitOne(pow - 1) + last + 1 + countDigitOne(last);
+        }
+        else {
+            return high * countDigitOne(pow - 1) + countDigitOne(last) + pow;
+        }
+    }
 }
