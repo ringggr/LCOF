@@ -13,7 +13,7 @@ public class MedianFinder {
         minhead = new PriorityQueue<>();
         maxhead = new PriorityQueue<>((a, b) -> b - a);
 
-    }
+    }// (a, b) -> b - a
 
     public void addNum(int num) {
         if (minhead.size() <= maxhead.size()) {

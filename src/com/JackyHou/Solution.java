@@ -1126,4 +1126,23 @@ public class Solution {
         long count = temp / weishu, charat = temp % weishu;
         return String.valueOf((long)Math.pow(10, weishu - 1) + count).charAt((int)charat) - '0';
     }
+
+    // 45. 把数组排成最小的数
+    public String minNumber(int[] nums) {
+        List<String> res = new ArrayList<>();
+        for (int i: nums) {
+            res.add(String.valueOf(i));
+        }
+        res.sort(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return (o1+o2).compareTo(o2+o1);
+            }
+        });
+        StringBuilder res1 = new StringBuilder();
+        for (String s: res) {
+            res1.append(s);
+        }
+        return res1.toString();
+    }
 }
