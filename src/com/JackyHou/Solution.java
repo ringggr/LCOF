@@ -1107,4 +1107,23 @@ public class Solution {
             return high * countDigitOne(pow - 1) + countDigitOne(last) + pow;
         }
     }
+
+    // 44. 数字序列中某一位的数字
+    public int findNthDigit(int n) {
+        /*
+        位数               1      2           3              n
+        最大的n            9    180+9    2700+180+9      9*10^(n-1)*n + 前一个
+         */
+        long target = 9;
+        long weishu = 1;
+        long pre = 0;
+        while (target < n) {
+            weishu += 1; // 升级一个位数
+            pre = target;
+            target = (long)(9 * Math.pow(10, weishu - 1) * weishu) + target;
+        } // 出while后weishu为n对应数字的位数，pre为weishu-1位数字的最大n，
+        long temp = n - pre; // 从第一位weishu位数字开始的第temp个数字。
+        long count = temp / weishu, charat = temp % weishu;
+        return String.valueOf((long)Math.pow(10, weishu - 1) + count).charAt((int)charat) - '0';
+    }
 }
