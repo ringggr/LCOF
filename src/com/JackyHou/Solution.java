@@ -1133,16 +1133,41 @@ public class Solution {
         for (int i: nums) {
             res.add(String.valueOf(i));
         }
-        res.sort(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return (o1+o2).compareTo(o2+o1);
-            }
-        });
+//        res.sort(new Comparator<String>() {
+//            @Override
+//            public int compare(String o1, String o2) {
+//                return (o1+o2).compareTo(o2+o1);
+//            }
+//        });
+        res.sort((a, b) -> (a + b).compareTo(b + a));
         StringBuilder res1 = new StringBuilder();
         for (String s: res) {
             res1.append(s);
         }
         return res1.toString();
+    }
+
+    // 46. 把数字翻译成字符串
+    int count46 = 0;
+    public int translateNum(int num) {
+        count46 = 0;
+        String number = String.valueOf(num);
+        f(number.toCharArray(), 0);
+
+        return count46;
+    }
+
+    private void f(char[] num, int n) {
+        if (n == num.length) {
+            count46++;
+        }
+        else {
+            f(num, n + 1);
+            if (n < num.length - 1 && num[n] != '0') {
+                if ((num[n] - '0') * 10 + (num[n + 1] - '0') <= 25) {
+                    f(num, n + 2);
+                }
+            }
+        }
     }
 }
