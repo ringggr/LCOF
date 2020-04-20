@@ -102,4 +102,27 @@ public class Spring418 {
         }
         return res;
     }
+
+    // LCP 10. 二叉树任务调度
+    public double minimalExecTime(TreeNode root) {
+        return getexecTime(root)[0];
+    }
+
+    /*
+    double[2]:
+    double[0] = 当前最少耗时
+    double[1] = 串行执行时间
+     */
+    private double[] getexecTime(TreeNode node) {
+        if (node == null) {
+            return new double[]{0.0, 0.0};
+        }
+        double[] exec_left = getexecTime(node.left);
+        double[] exec_right = getexecTime(node.right);
+
+        double sum = exec_left[1] + exec_right[1];
+        double minTime = Math.max(Math.max(exec_left[0], exec_right[0]), sum / 2) + node.val;
+
+        return new double[]{minTime, sum + node.val};
+    }
 }
