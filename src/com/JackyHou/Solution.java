@@ -1171,5 +1171,19 @@ public class Solution {
         }
     }
 
+    // 47. 礼物的最大价值
+    int maxValue = 0;
+    public int maxValue(int[][] grid) {
+        int[][] dp = new int[grid.length][grid[0].length];
+        dp[0][0] = grid[0][0];
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                int left = i == 0 ? 0 : dp[i - 1][j];
+                int top = j == 0 ? 0 : dp[i][j - 1];
+                dp[i][j] = Math.max(left, top) + grid[i][j];
+            }
+        }
 
+        return dp[dp.length - 1][dp[0].length - 1];
+    }
 }
