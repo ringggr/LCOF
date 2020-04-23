@@ -1264,7 +1264,9 @@ public class Solution {
         }
         return ress[0] || ress[1] || ress[2];
     }
-    // 49. 丑数 动态规划
+    /* 49. 丑数 动态规划
+    丑数 = 某较小丑数 × 某因子
+     */
     public int nthUglyNumber2(int n) {
         int a = 0, b = 0, c = 0;
         int[] dp = new int[n];
@@ -1277,5 +1279,27 @@ public class Solution {
             if (dp[i] == n5) c++;
         }
         return dp[n - 1];
+    }
+
+    // 采用最小堆
+    public int nthUglyNumber3(int n) {
+        PriorityQueue<Long> head = new PriorityQueue<>();
+        HashSet<Long> visited = new HashSet<>();
+        int[] ugly = new int[1690];
+        int[] compnent = new int[]{2, 3, 5};
+        head.add(1L);
+        visited.add(1L);
+        for (int i = 0; i < n; i++) {
+            Long min_ugly = head.poll();
+            assert min_ugly != null;
+            ugly[i] = min_ugly.intValue();
+            for (int j: compnent) {
+                if (!visited.contains(min_ugly * j)) {
+                    visited.add(min_ugly * j);
+                    head.add(min_ugly * j);
+                }
+            }
+        }
+        return ugly[n - 1];
     }
 }
