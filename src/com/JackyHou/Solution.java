@@ -1306,6 +1306,7 @@ public class Solution {
     }
 
     // 50. 第一个只出现一次的字符
+    // 有序哈希表
     public char firstUniqChar(String s) {
         Map<Character, Boolean> res = new LinkedHashMap<>();
         for (char c: s.toCharArray()) {
