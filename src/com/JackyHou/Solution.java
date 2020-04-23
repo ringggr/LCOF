@@ -1,5 +1,7 @@
 package com.JackyHou;
 
+import sun.jvm.hotspot.ui.EditorCommands;
+
 import java.util.*;
 
 public class Solution {
@@ -1301,5 +1303,17 @@ public class Solution {
             }
         }
         return ugly[n - 1];
+    }
+
+    // 50. 第一个只出现一次的字符
+    public char firstUniqChar(String s) {
+        Map<Character, Boolean> res = new LinkedHashMap<>();
+        for (char c: s.toCharArray()) {
+            res.put(c, !res.containsKey(c));
+        }
+        for (Map.Entry<Character, Boolean> c: res.entrySet()) {
+            if (c.getValue()) return c.getKey();
+        }
+        return ' ';
     }
 }
