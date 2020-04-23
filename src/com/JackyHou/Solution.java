@@ -1186,4 +1186,96 @@ public class Solution {
 
         return dp[dp.length - 1][dp[0].length - 1];
     }
+
+    // 48. 最长不含重复字符的子字符串
+    public int lengthOfLongestSubstring(String s) {
+        int max_length = 0;
+        for (int i = 0; i < s.length(); i++) {
+            Set<Character> used_alphbet = new HashSet<>();
+            for (int j = i; j < s.length(); j++) {
+//                System.out.printf("i: %d, j : %d\n", i, j);
+                if (used_alphbet.contains(s.charAt(j))) {
+                    System.out.println(used_alphbet.toString());
+                    if (used_alphbet.size() > max_length) {
+                        max_length = used_alphbet.size();
+                    }
+                    break;
+                }
+                else {
+                    used_alphbet.add(s.charAt(j));
+                }
+            }
+
+            if (used_alphbet.size() > max_length) {
+                System.out.println(used_alphbet.toString());
+                max_length = used_alphbet.size();
+            }
+        }
+        return max_length;
+    }
+
+    // 48. 最长不含重复字符的子字符串
+    // 动态规划，记录每个字符结尾的最长长度，
+    // 如果本字符的上一次出现位置，在上一个字符的长度之外，则上一个max+1，
+    // 否则就直接返回当前位置-上次位置。
+    public int lengthOfLongestSubstring2(String s) {
+        int max_length = 0;
+        HashMap<Character, Integer> distence = new HashMap<>();
+        int last_max = 0;
+        for (int j = 0; j < s.length(); j++) {
+            int i = distence.getOrDefault(s.charAt(j), -1);
+            distence.put(s.charAt(j), j);
+            last_max = last_max < j - i ? last_max + 1 : j - i;
+            max_length = Math.max(max_length, last_max);
+        }
+        return max_length;
+    }
+
+    // 49. 丑数
+    public int nthUglyNumber(int n) {
+        int i = 0;
+        int num = 0;
+        while (i < n) {
+            num++;
+            if (checkUgly(num)) {
+                System.out.println(num);
+                i++;
+            }
+        }
+        return num;
+    }
+
+    private boolean checkUgly(int num) {
+        if (num == 1 || num == 2 || num == 3 || num == 5 || num == 6 || num == 10 || num == 15 || num == 30) {
+            return true;
+        }
+        if (num % 7 == 0 || num % 11 == 0 || num % 13 == 0 || num % 17 == 0 || num % 19 == 0 || num % 23 == 0) {
+            return false;
+        }
+        int[] a = new int[]{2, 3, 5};
+        boolean[] ress = new boolean[3];
+        for (int i = 0; i < a.length; i++) {
+            if (num % a[i] == 0) {
+                ress[i] = checkUgly(num / a[i]);
+            }
+            else {
+                ress[i] = false;
+            }
+        }
+        return ress[0] || ress[1] || ress[2];
+    }
+    // 49. 丑数 动态规划
+    public int nthUglyNumber2(int n) {
+        int a = 0, b = 0, c = 0;
+        int[] dp = new int[n];
+        dp[0] = 1;
+        for (int i = 1; i < n; i++) {
+            int n2 = dp[a] * 2, n3 = dp[b] * 3, n5 = dp[c] * 5;
+            dp[i] = Math.min(Math.min(n2, n3), n5);
+            if (dp[i] == n2) a++;
+            if (dp[i] == n3) b++;
+            if (dp[i] == n5) c++;
+        }
+        return dp[n - 1];
+    }
 }
