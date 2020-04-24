@@ -1317,4 +1317,32 @@ public class Solution {
         }
         return ' ';
     }
+
+    // 52. 两个链表的第一个公共节点
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        Set<ListNode> visited = new HashSet<>();
+        while (headA != null) {
+            visited.add(headA);
+            headA = headA.next;
+        }
+        while (headB != null) {
+            if (visited.contains(headB)) {
+                return headB;
+            }
+            headB = headB.next;
+        }
+        return null;
+    }
+
+    // 链表A和B，通过在A后面拼接B，B后面拼接A，这样就实现两指针同步在A+B上运动。
+    public ListNode getIntersectionNode2(ListNode headA, ListNode headB) {
+        ListNode pa = headA, pb = headB;
+        while (pa != pb) {
+            pa = pa == null ? headB : pa.next;
+            pb = pb == null ? headA : pb.next;
+        }
+        return pa;
+    }
+
+
 }
