@@ -1404,4 +1404,25 @@ public class Solution {
         if (--k == 0) res = root.val;
         postMidOrder(root.left, k);
     }
+
+    // 55 - I. 二叉树的深度
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int depth = 0;
+        // int i = 0, j = 0;
+        Queue<TreeNode> level = new LinkedList<>();
+        level.add(root);
+        while (!level.isEmpty()) {
+            int size = level.size();
+            depth++;
+            for (int i = 0; i < size; i++) {
+                TreeNode temp = level.poll();
+                if (temp.left != null) level.add(temp.left);
+                if (temp.right != null) level.add(temp.right);
+            }
+        }
+        return depth;
+    }
 }
