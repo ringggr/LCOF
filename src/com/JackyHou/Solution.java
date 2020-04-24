@@ -1425,4 +1425,16 @@ public class Solution {
         }
         return depth;
     }
+
+    // 55 - II. 平衡二叉树
+    public boolean isBalanced(TreeNode root) {
+        if (root == null) return true;
+        if (root.right == null && root.left == null) return true;
+        return isBalanced(root.left) && isBalanced(root.right) && Math.abs(maxDepth(root.left) - maxDepth(root.right)) < 2;
+    }
+
+    private int maxDepth2(TreeNode root) {
+        if (root == null) return 0;
+        return Math.max(maxDepth2(root.left), maxDepth2(root.right)) + 1;
+    }
 }
