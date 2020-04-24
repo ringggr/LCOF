@@ -1345,6 +1345,7 @@ public class Solution {
     }
 
     // 53 - I. 在排序数组中查找数字 I
+    // 二分查找
     public int search(int[] nums, int target) {
         if (nums.length == 0) return 0;
         if (nums.length == 1) {
@@ -1356,6 +1357,7 @@ public class Solution {
         else if (nums[nums.length / 2] > target) {
             return search(Arrays.copyOf(nums, nums.length / 2), target);
         }
+        // 中间就是目标，左右分别遍历至非目标
         int pos = nums.length / 2;
         int count = 1;
         for (int i = pos - 1; i >= 0 && nums[i] == target; i--) {
@@ -1365,5 +1367,26 @@ public class Solution {
             count++;
         }
         return count;
+    }
+
+    // 53 - II. 0～n-1中缺失的数字
+    public int missingNumber(int[] nums) {
+        if (nums.length == 1) {
+            return nums[0] == 0 ? 1 : 0;
+        }
+        if (nums[nums.length - 1] == nums.length - 1) {
+            return nums.length;
+        }
+        int i = 0, j = nums.length - 1;
+        while (i != j) {
+            int mid = (i + j) / 2;
+            if (nums[mid] == mid) {
+                i = mid + 1;
+            }
+            else {
+                j = mid;
+            }
+        }
+        return i;
     }
 }
