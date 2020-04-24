@@ -1389,4 +1389,19 @@ public class Solution {
         }
         return i;
     }
+
+    // 54. 二叉搜索树的第k大节点
+    int res = 0;
+    public int kthLargest(TreeNode root, int k) {
+        postMidOrder(root, k);
+        return res;
+    }
+
+    private void postMidOrder(TreeNode root, int k) {
+        if (root == null) return;
+        postMidOrder(root.right, k);
+        if (k == 0) return;
+        if (--k == 0) res = root.val;
+        postMidOrder(root.left, k);
+    }
 }
