@@ -1344,5 +1344,26 @@ public class Solution {
         return pa;
     }
 
-
+    // 53 - I. 在排序数组中查找数字 I
+    public int search(int[] nums, int target) {
+        if (nums.length == 0) return 0;
+        if (nums.length == 1) {
+            return nums[0] == target ? 1 : 0;
+        }
+        if (nums[nums.length / 2] < target) {
+            return search(Arrays.copyOfRange(nums, nums.length / 2, nums.length), target);
+        }
+        else if (nums[nums.length / 2] > target) {
+            return search(Arrays.copyOf(nums, nums.length / 2), target);
+        }
+        int pos = nums.length / 2;
+        int count = 1;
+        for (int i = pos - 1; i >= 0 && nums[i] == target; i--) {
+            count++;
+        }
+        for (int i = pos + 1; i < nums.length && nums[i] == target; i++) {
+            count++;
+        }
+        return count;
+    }
 }
