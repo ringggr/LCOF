@@ -1,0 +1,89 @@
+package com.JackyHou;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+
+public class Week186 {
+
+
+    public int maxScore(String s) {
+        char[] chars = s.toCharArray();
+        int ling = 0;
+        int yi = 0;
+        boolean tag = false;
+        int split = s.length() / 2; // split位 为第二组的考虑，考虑1
+        int all_l = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (chars[i] == '0') {
+                all_l++;
+            }
+            if (i < split && chars[i] == '0') {
+                ling++;
+            }
+            if (i >= split && chars[i] == '1') {
+                yi++;
+            }
+        }
+        if (all_l == s.length() || all_l == 0) {
+            return s.length() - 1;
+        }
+        int max = ling + yi;
+
+        int l = ling, y = yi;
+        // 向左：
+        for (int i = split - 1; i > 0; i--) {
+            if (chars[i] == '1') {
+                y++;
+            }
+            else{
+                l--;
+            }
+            max = Math.max(y + l, max);
+        }
+        l = ling;
+        y = yi;
+        // 向右
+        // split位 为0的考虑
+        for (int i = split; i < chars.length - 1; i++) {
+            if (chars[i] == '0') {
+                l++;
+            }
+            else {
+                y--;
+            }
+            max = Math.max(y + l, max);
+        }
+        return max;
+    }
+
+
+    public int maxScore(int[] cardPoints, int k) {
+        return 0;
+    }
+
+    // 5394. 对角线遍历 II
+    public int[] findDiagonalOrder(List<List<Integer>> nums) {
+        int row = nums.size();
+        int count = 0;
+        HashMap<Integer, ArrayList<Integer>> i_j = new LinkedHashMap<>();
+        for (int i = 0; i < nums.size(); i++) {
+            count += nums.get(i).size();
+            for (int j = 0; j < nums.get(i).size(); j++) {
+                ArrayList<Integer> temp = i_j.getOrDefault(i + j, new ArrayList<>());
+                temp.add(nums.get(i).get(j));
+                i_j.put(i + j, temp);
+            }
+        }
+        int[] res = new int[count];
+        int p = 0;
+        for (int key: i_j.keySet()) {
+            ArrayList<Integer> temp = i_j.get(key);
+            for (int i = temp.size() - 1; i >= 0; i--) {
+                res[p++] = temp.get(i);
+            }
+        }
+        return res;
+    }
+}
