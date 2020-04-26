@@ -112,6 +112,8 @@ public class Week186 {
         for (int i = 1; i < nums.length; i++) {
             dp[i] = Math.max(dp[queue.peekFirst()] + nums[i], nums[i]);
             res = Math.max(res, dp[i]);
+
+            // 单调队列模板
             while (!queue.isEmpty() && dp[queue.peekLast()] <= dp[i]) {
                 queue.pollLast();
             }
