@@ -1,12 +1,11 @@
 package com.JackyHou;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import sun.awt.image.ImageWatched;
+
+import java.util.*;
 
 public class Week186 {
-
+// 周赛 186场
 
     public int maxScore(String s) {
         char[] chars = s.toCharArray();
@@ -98,6 +97,27 @@ public class Week186 {
             ArrayList<Integer> temp = i_j.get(key);
             for (int i = temp.size() - 1; i >= 0; i--) {
                 res[p++] = temp.get(i);
+            }
+        }
+        return res;
+    }
+
+    // 5180. 带限制的子序列和
+    public int constrainedSubsetSum(int[] nums, int k) {
+        int[] dp = new int[nums.length];
+        int res = nums[0];
+        dp[0] = nums[0];
+        LinkedList<Integer> queue = new LinkedList<>();
+        queue.addFirst(0);
+        for (int i = 1; i < nums.length; i++) {
+            dp[i] = Math.max(dp[queue.peekFirst()] + nums[i], nums[i]);
+            res = Math.max(res, dp[i]);
+            while (!queue.isEmpty() && dp[queue.peekLast()] <= dp[i]) {
+                queue.pollLast();
+            }
+            queue.addLast(i);
+            if (i - queue.peekFirst() == k) {
+                queue.pollFirst();
             }
         }
         return res;
