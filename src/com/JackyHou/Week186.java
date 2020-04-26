@@ -58,9 +58,25 @@ public class Week186 {
         return max;
     }
 
-
+    // 5393. 可获得的最大点数
     public int maxScore(int[] cardPoints, int k) {
-        return 0;
+        // 转变思路，寻找length-k个连续数组的最小值。
+        int num = cardPoints.length - k;
+        int minn = 0;
+        for (int i = 0; i < num; i++) {
+            minn += cardPoints[i];
+        }
+        System.out.println(minn);
+        int sum = minn;
+        int first = 0, fifth = num - 1;
+        int temp = minn;
+        for (int i = num; i < cardPoints.length; i++) {
+            sum += cardPoints[i];
+            temp = temp - cardPoints[first++] + cardPoints[++fifth];
+            minn = Math.min(minn, temp);
+        }
+        System.out.println(minn);
+        return sum - minn;
     }
 
     // 5394. 对角线遍历 II
