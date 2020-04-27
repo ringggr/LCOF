@@ -2,7 +2,7 @@ package com.JackyHou;
 
 import java.util.*;
 
-public class Sprint425 {
+public class Spring425 {
     // LCP 11.
     public int expectNumber(int[] scores) {
         HashSet<Integer> temp = new HashSet<>();
