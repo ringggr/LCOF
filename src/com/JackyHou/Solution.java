@@ -140,4 +140,18 @@ public class Solution {
 
         return dp[s.length() - 1][p.length() - 1];
     }
+
+    // 53. 最大子序和
+    public int maxSubArray(int[] nums) {
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        int res = dp[0];
+
+        for (int i = 1; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i - 1], 0) + nums[i];
+            res = Math.max(dp[i], res);
+        }
+
+        return res;
+    }
 }
