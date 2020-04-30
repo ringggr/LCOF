@@ -236,4 +236,21 @@ public class Solution {
 
         return grid[rows - 1][cols - 1];
     }
+
+
+    // 70. 爬楼梯
+    // 1, 2, 3, 5, 8
+    public int climbStairs(int n) {
+        if (n <= 3) {
+            return n;
+        }
+        int a = 3, b = 2;
+        while (n > 3) {
+            int t = a;
+            a = b + a;
+            b = t;
+            n--;
+        }
+        return a;
+    }
 }
