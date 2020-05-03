@@ -253,4 +253,82 @@ public class Solution {
         }
         return a;
     }
+
+    // 72. 编辑距离
+
+    public int minDistance(String word1, String word2) {
+        // dp[i][j] 第i个word2字符 对应第j个word1字符，至少需要编辑多少次
+        // i j 不一样，替换，
+        if (word1.length() == 0 || word2.length() == 0) {
+            return word1.length() + word2.length();
+        }
+        if (word1.equals(word2)) {
+            return 0;
+        }
+
+        word1 = " " + word1;
+        word2 = " " + word2;
+        int[][] dp = new int[word1.length()][word2.length()];
+
+        for (int i = 0; i < word1.length(); i++) {
+            dp[i][0] = i;
+        }
+        for (int j = 0; j < word2.length(); j++) {
+            dp[0][j] = j;
+        }
+
+        for (int i = 1; i < word1.length(); i++) {
+            for (int j = 1; j < word2.length(); j++) {
+                if (word1.charAt(i) != word2.charAt(j)) {
+                    dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1]) + 1;
+                }
+                else {
+                    dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1] - 1) + 1;
+                }
+            }
+        }
+
+        return dp[word1.length() - 1][word2.length() - 1];
+    }
+
+    // 85. 最大矩形
+    // 思路，dp[i][j]用于存储当前位置的到这边连续的1有多少个，作为边长width，
+    // 再向上遍历当前列的边长width，直到值为0，取最小的width。算出width*b，取最大面积。
+    // 关联题目：84
+    public int maximalRectangle(char[][] matrix) {
+        if (matrix.length == 0 || matrix[0].length == 0) {
+            return 0;
+        }
+        int[][] dp = new int[matrix.length][matrix[0].length];
+        int res = 0;
+        for (int i = 0; i < dp.length; i++) {
+            for (int j = 0; j < dp[0].length; j++) {
+                if (matrix[i][j] == '1') {
+                    dp[i][j] = j == 0 ? 1 : dp[i][j - 1] + 1;
+
+                    int width = dp[i][j];
+
+                    for (int row = i; row >= 0 && dp[row][j] != 0; row--) {
+                        width = Math.min(width, dp[row][j]);
+                        res = Math.max(res, width * (i - row + 1));
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+    // 84. 柱状图中最大的矩形
+    public int largestRectangleArea(int[] heights) {
+        int res = 0;
+        for (int i = 0; i < heights.length; i++) {
+            int h = heights[i];
+            for (int j = i; j >= 0; j--) {
+                h = Math.min(h, heights[j]);
+                res = Math.max(res, (i - j + 1) * h);
+            }
+        }
+        return res;
+    }
+
 }
