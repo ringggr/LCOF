@@ -1,6 +1,9 @@
 package com.JackyHou;
 
+import java.net.ServerSocket;
 import java.util.Arrays;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Stack;
 
 public class Solution {
@@ -318,6 +321,21 @@ public class Solution {
         return res;
     }
 
+    public int maximalRectangle2(char[][] matrix) {
+        if (matrix.length == 0) {
+            return 0;
+        }
+        int res = 0;
+        int[] dp = new int[matrix[0].length];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                dp[j] = matrix[i][j] == '1' ? dp[j] + 1 : 0;
+            }
+            res = Math.max(res, largestRectangleArea2(dp));
+        }
+        return res;
+    }
+
     // 84. 柱状图中最大的矩形
     public int largestRectangleArea(int[] heights) {
         int res = 0;
@@ -330,5 +348,52 @@ public class Solution {
         }
         return res;
     }
+    // 采用 单调队列
+    public int largestRectangleArea2(int[] heights) {
+        int res = 0;
+        int[] new_h = new int[heights.length + 2];
+        Deque<Integer> minQ = new LinkedList<>(); // 单调递增队列
 
+        System.arraycopy(heights, 0, new_h, 1, heights.length);
+        for (int i = 0; i < new_h.length; i++) {
+            while (!minQ.isEmpty() && new_h[minQ.peekLast()] > new_h[i]) {
+                int cur = minQ.pollLast();
+                res = Math.max(res, (i - minQ.peekLast() - 1) * new_h[cur]);
+                System.out.println(cur + " " + res);
+            }
+            minQ.add(i);
+        }
+        return res;
+    }
+
+
+
+    // 91. 解码方法
+    public int numDecodings(String s) {
+        if (s.length() == 0 || s.charAt(0) == '0') {
+            return 0;
+        }
+        int[] dp = new int[s.length()];
+        dp[0] = 1;
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i) == '0' && (s.charAt(i - 1) > '2' || s.charAt(i - 1) == '0')) // 错误字符串
+            {
+                return 0;
+            }
+            // 0必和前位组合，且前位的计数不考虑。
+            if (s.charAt(i) == '0') {
+                dp[i] = i >= 2 ? dp[i - 2] : dp[i - 1];
+            }
+            else {
+                // 只能和前一个数组成一个密码, 不能组合
+                if (s.charAt(i - 1) == '0' || s.charAt(i - 1) > '2' || (s.charAt(i - 1) == '2' && s.charAt(i) > '6')) {
+                    dp[i] = dp[i - 1];
+                }
+                else { // 不组合的数量 + 组合的数量
+                    dp[i] = dp[i - 1] + dp[i - 2];
+                }
+            }
+        }
+        return dp[s.length() - 1];
+    }
 }
