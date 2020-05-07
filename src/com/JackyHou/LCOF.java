@@ -1596,4 +1596,40 @@ public class LCOF {
         }
         return res;
     }
+
+    // 面试题57 - II. 和为s的连续正数序列
+    public int[][] findContinuousSequence(int target) {
+        List<int[]> ans = new ArrayList<>();
+
+        int high = target / 2 + 1;
+        int left = 1;
+        int right = 2;
+
+        int sum = left + right;
+        while (right <= high) {
+            if (right <= left) {
+                right++;
+                continue;
+            }
+            if (sum == target) {
+                int[] temp = new int[right - left + 1];
+                for (int i = 0; i < temp.length; i++) {
+                    temp[i] = i + left;
+                }
+                ans.add(temp);
+                right++;
+                sum += right;
+            }
+            else if (sum > target) {
+                sum -= left;
+                left++;
+            }
+            else {
+                right++;
+                sum += right;
+            }
+        }
+
+        return ans.toArray(new int[0][]);
+    }
 }
