@@ -2,6 +2,7 @@ package com.JackyHou;
 
 import sun.jvm.hotspot.ui.EditorCommands;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class LCOF {
@@ -1436,5 +1437,163 @@ public class LCOF {
     private int maxDepth2(TreeNode root) {
         if (root == null) return 0;
         return Math.max(maxDepth2(root.left), maxDepth2(root.right)) + 1;
+    }
+
+    // 面试题51. 数组中的逆序对
+    public int reversePairs(int[] nums) {
+        int len = nums.length;
+        if (len < 2) {
+            return 0;
+        }
+
+        int[] copy = new int[len];
+        System.arraycopy(nums,0,copy, 0, len);
+
+        int[] temp = new int[len];
+        return reversePairs(copy, 0, len - 1, temp);
+    }
+
+    private int reversePairs(int[] nums, int left, int right, int[] temp) {
+        if (left == right) return 0;
+
+        int mid = left + (right - left) / 2;
+        int leftPairs = reversePairs(nums, left, mid, temp);
+        int rightPairs = reversePairs(nums, mid + 1, right, temp);
+
+        if (nums[mid] <= nums[mid + 1]) {
+            return leftPairs + rightPairs;
+        }
+
+        int crossPairs = mergeAndCount(nums, left, mid, right, temp);
+        return leftPairs + crossPairs + rightPairs;
+    }
+
+    /*
+    * nums[left...mid] 有序   nums[mid + 1...right] 有序
+     */
+    private int mergeAndCount(int[] nums, int left, int mid, int right, int[] temp) {
+        if (left <= right) System.arraycopy(nums, left, temp, left, right - left + 1);
+
+        int i = left;
+        int j = mid + 1;
+
+        int count = 0;
+        for (int k = left; k <= right; k++) {
+            if (i == mid + 1) {
+                nums[k] = temp[j];
+                j++;
+            }
+            else if (j == right + 1) {
+                nums[k] = temp[i];
+                i++;
+            }
+            else if (temp[i] <= temp[j]) {
+                nums[k] = temp[i];
+                i++;
+            }
+            else {
+                nums[k] = temp[j];
+                j++;
+                count += (mid - i + 1);
+            }
+        }
+        return count;
+    }
+
+    // 面试题56 - I. 数组中数字出现的次数
+    public int[] singleNumbers(int[] nums) {
+        // 用于将所有的数异或起来
+        int k = 0;
+
+        for (int num: nums) {
+            k ^= num;
+        }
+
+        System.out.println("k: " + Integer.toBinaryString(k));
+        // 获得k中最低的1
+        int mask = 1;
+
+        // mask = k & (-k) 这种方法也可以得到mask
+        while ((k & mask) == 0) {
+            mask <<= 1;
+        }
+        System.out.println("mask: " + Integer.toBinaryString(mask));
+
+        int a = 0;
+        int b = 0;
+
+        for (int num: nums) {
+            if ((num & mask) == 0) {
+                System.out.println("num: " + Integer.toBinaryString(num) + " equals 0");
+                a ^= num;
+            }
+            else {
+                System.out.println("num: " + Integer.toBinaryString(num) + " equals " + Integer.toBinaryString(num & mask));
+                b ^= num;
+            }
+        }
+
+        return new int[]{a, b};
+    }
+    public int[] singleNumbers2(int[] nums) {
+        int sum = 0;
+        for (int value : nums) {
+            sum ^= value;
+        }
+
+        int diff = 1;
+        while ((sum & diff) == 0) {
+            diff <<= 1;
+        }
+
+        int a = 0, b = 0;
+        for (int num: nums) {
+            if ((num & diff) == 0) {
+                a ^= num;
+            }
+            else {
+                b ^= num;
+            }
+        }
+
+        return new int[]{a, b};
+    }
+
+    // 面试题56 - II. 数组中数字出现的次数 II
+    public int singleNumber(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i: nums) {
+            map.put(i, map.getOrDefault(i, 0) + 1);
+        }
+
+        int res = 0;
+
+        for (int i: map.keySet()) {
+            if (map.get(i) == 1) {
+                res = i;
+                break;
+            }
+        }
+
+        return res;
+    }
+    public int singleNumber2(int[] nums) {
+        int[] sum = new int[32];
+        int res = 0;
+        for (int i = 0; i < sum.length; i++) {
+            int index = 1 << i;
+            int count = 0;
+
+            for (int num: nums) {
+                if ((num & index) != 0) {
+                    count++;
+                }
+            }
+
+            if (count % 3 == 1) {
+                res |= index;
+            }
+        }
+        return res;
     }
 }

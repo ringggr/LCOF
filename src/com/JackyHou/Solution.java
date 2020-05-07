@@ -366,7 +366,10 @@ public class Solution {
         return res;
     }
 
-
+    // 87. 扰乱字符串
+    public boolean isScramble(String s1, String s2) {
+        return false;
+    }
 
     // 91. 解码方法
     public int numDecodings(String s) {
@@ -396,4 +399,6 @@ public class Solution {
         }
         return dp[s.length() - 1];
     }
+
+
 }
