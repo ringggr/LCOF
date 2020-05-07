@@ -1597,6 +1597,24 @@ public class LCOF {
         return res;
     }
 
+    // 面试题57. 和为s的两个数字
+    public int[] twoSum(int[] nums, int target) {
+        int a = 0, b = nums.length - 1;
+        while (a < b) {
+            int sum = nums[a] + nums[b];
+            if (sum == target) {
+                break;
+            }
+            else if (sum < target) {
+                a++;
+            }
+            else {
+                b--;
+            }
+        }
+        return new int[]{nums[a], nums[b]};
+    }
+
     // 面试题57 - II. 和为s的连续正数序列
     public int[][] findContinuousSequence(int target) {
         List<int[]> ans = new ArrayList<>();
@@ -1630,6 +1648,6 @@ public class LCOF {
             }
         }
 
-        return ans.toArray(new int[0][]);
+        return ans.toArray(new int[ans.size()][]);
     }
 }
