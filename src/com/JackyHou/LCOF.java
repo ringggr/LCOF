@@ -1618,7 +1618,6 @@ public class LCOF {
     // 面试题57 - II. 和为s的连续正数序列
     public int[][] findContinuousSequence(int target) {
         List<int[]> ans = new ArrayList<>();
-
         int high = target / 2 + 1;
         int left = 1;
         int right = 2;
@@ -1647,7 +1646,54 @@ public class LCOF {
                 sum += right;
             }
         }
-
+        ans.toArray(new int[0][]);
         return ans.toArray(new int[ans.size()][]);
+    }
+
+    // 面试题58 - I. 翻转单词顺序
+    public String reverseWords(String s) {
+        StringBuilder res = new StringBuilder();
+        s = " " + s + " ";
+        int right = s.length() - 1; // (left, right)
+        for (int left = right; left >= 0; left--) {
+            if (s.charAt(left) == ' ') {
+                if (right - left > 1) { // 有单词
+                    res.append(s.substring(left + 1, right));
+                    res.append(" ");
+
+                }
+                right = left;
+            }
+        }
+
+        return res.toString().substring(0, res.length() == 0 ? 0 : res.length() - 1);
+    }
+
+    // 面试题58 - II. 左旋转字符串
+    public String reverseLeftWords(String s, int n) {
+        return "" + s.substring(n, s.length()) + s.substring(0, n);
+    }
+
+    // 面试题59 - I. 滑动窗口的最大值
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums.length == 0 || k == 0) return new int[0];
+        if (k == 1) return nums;
+
+        int[] res = new int[nums.length - k + 1];
+        Deque<Integer> maxx = new LinkedList<>();
+
+        int count = 0;
+        for (int i = 0; i < nums.length; i++) {
+            while (!maxx.isEmpty() && nums[maxx.peekLast()] < nums[i]) {
+                maxx.pollLast();
+            }
+            maxx.offerLast(i);
+            while (!maxx.isEmpty() && i - maxx.peekFirst() >= k) {
+                maxx.pollFirst();
+            }
+            if(i >= k - 1) res[count++] = nums[maxx.peekFirst()];
+        }
+
+        return res;
     }
 }
