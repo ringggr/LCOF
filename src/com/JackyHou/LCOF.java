@@ -1792,4 +1792,15 @@ public class LCOF {
         boolean x = n > 0 && (res += sumNums(n - 1)) > 0;
         return res;
     }
+
+    // 面试题65. 不用加减乘除做加法
+    public int add(int a, int b) {
+        while (b != 0) {
+            int pre = (a & b) << 1;
+            a = a ^ b;
+            b = pre;
+
+        }
+        return a;
+    }
 }
