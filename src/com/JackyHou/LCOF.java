@@ -1785,4 +1785,11 @@ public class LCOF {
         }
         return res;
     }
+
+    // 面试题64. 求1+2+…+n
+    public int sumNums(int n) {
+        int res = n;
+        boolean x = n > 0 && (res += sumNums(n - 1)) > 0;
+        return res;
+    }
 }
