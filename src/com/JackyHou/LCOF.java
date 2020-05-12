@@ -1697,5 +1697,92 @@ public class LCOF {
         return res;
     }
 
+    // 面试题60. n个骰子的点数
+    public double[] twoSum(int n) {
+        int[][] dp = new int[n + 1][6 * n + 1];
 
+        for (int i = 1; i <= 6; i++) {
+            dp[1][i] = 1;
+        }
+
+        int max_now = 6;
+        int now = 1;
+        while (now < n) {
+            for (int i = now; i <= max_now; i++) {
+                for (int number = 1; number <= 6; number++) {
+                    dp[now + 1][i + number] += dp[now][i];
+                }
+            }
+
+            max_now += 6;
+            now++;
+        }
+
+        double[] res = new double[5 * n + 1];
+        double t = 1.0 / Math.pow(6, n);
+        for (int i = 0; i < res.length; i++) {
+            res[i] = t * dp[n][n + i];
+        }
+        return res;
+    }
+
+    // 面试题61. 扑克牌中的顺子
+    public boolean isStraight(int[] nums) {
+        Arrays.sort(nums);
+        int joker = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0) {
+                joker++;
+            }
+            else {
+                if (i == 0 || (nums[i - 1] == 0)) continue;
+                if (nums[i] == nums[i - 1]) return false;
+                if (nums[i] == 13 && i != 4) return false;
+                if (nums[i] != nums[i - 1] + 1) {
+                    if (nums[i] - nums[i - 1] - 1 <= joker) {
+                        joker -= (nums[i] - nums[i - 1] - 1);
+                    }
+                    else {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+
+    // 面试题62. 圆圈中最后剩下的数字
+    public int lastRemaining(int n, int m) {
+        ArrayList<Integer> list = new ArrayList<>(n);
+        for (int i = 0; i < n; i++) {
+            list.add(i);
+        }
+        int idx = 0;
+        while (n > 1) {
+            idx = (idx + m - 1) % n;
+            list.remove(idx);
+            n--;
+        }
+        return list.get(0);
+    }
+    public int lastRemaining2(int n, int m) {
+        int res = 0;
+        for (int i = 2; i <= n; i++) {
+            res = (res + m) % i;
+        }
+        return res;
+    }
+
+    // 面试题63. 股票的最大利润
+    public int maxProfit(int[] prices) {
+        if (prices.length < 2) return 0;
+        int res = 0;
+        int minn = prices[0];
+        for (int i = 1; i < prices.length; i++) {
+            minn = Math.min(minn, prices[i]);
+            res = Math.max(res, prices[i] - minn);
+        }
+        return res;
+    }
 }

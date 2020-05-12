@@ -38,7 +38,7 @@ class MaxQueue {
     }
 }
 
-/**
+/*
  * Your MaxQueue object will be instantiated and called as such:
  * MaxQueue obj = new MaxQueue();
  * int param_1 = obj.max_value();
