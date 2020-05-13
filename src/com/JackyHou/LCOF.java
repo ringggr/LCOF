@@ -1803,4 +1803,24 @@ public class LCOF {
         }
         return a;
     }
+
+    // 面试题66. 构建乘积数组
+    public int[] constructArr(int[] a) {
+        int n = a.length;
+        int[] res = new int[n];
+
+        int t = 1;
+        for (int i = 0; i < a.length; i++) {
+            res[i] = t;
+            t *= a[i];
+        }
+
+        t = 1;
+        for (int i = a.length - 1; i >= 0; i--) {
+            res[i] *= t;
+            t *= a[i];
+        }
+
+        return res;
+    }
 }
