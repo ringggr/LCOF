@@ -1861,4 +1861,32 @@ public class LCOF {
         }
         return lowestCommonAncestor(root.right, p, q);
     }
+
+    // 面试题68 - II. 二叉树的最近公共祖先
+    public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == p || root == q) {
+            return root;
+        }
+        if (inThisBrunch(root.left, p) && inThisBrunch(root.left, q)) { // 都在左边
+            return lowestCommonAncestor2(root.left, p, q);
+        }
+        else if (inThisBrunch(root.right, p) && inThisBrunch(root.right, q)) { // 都在右边
+            return lowestCommonAncestor2(root.right, p, q);
+        }
+        return root; // 一左一右 就是本节点
+    }
+    private boolean inThisBrunch(TreeNode root, TreeNode p) {
+        if (root == null) return false;
+        if (root == p) return true;
+        return inThisBrunch(root.left, p) || inThisBrunch(root.right, p);
+    }
+    // 面试题68 - II. 二叉树的最近公共祖先 -------优化后
+    public TreeNode lowestCommonAncestor3(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null || root == p || root == q) return root;
+        TreeNode left = lowestCommonAncestor3(root.left, p, q);
+        TreeNode right = lowestCommonAncestor3(root.right, p, q);
+        if(left == null) return right;
+        if(right == null) return left;
+        return root;
+    }
 }
