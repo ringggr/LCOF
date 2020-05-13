@@ -1,5 +1,6 @@
 package com.JackyHou;
 
+import org.omg.PortableInterceptor.INACTIVE;
 import sun.jvm.hotspot.ui.EditorCommands;
 
 import java.lang.reflect.Array;
@@ -1822,5 +1823,27 @@ public class LCOF {
         }
 
         return res;
+    }
+
+    // 面试题67. 把字符串转换成整数
+    public int strToInt(String str) {
+        str = str.trim();
+        if(str.length() == 0) return 0;
+        long res = 0;
+        int i = 1;
+        boolean negative = false;
+        if(str.charAt(0) == '-') negative = true;
+        else if(str.charAt(0) != '+') i = 0;
+        for(int j = i; j < str.length(); j++) {
+            if(str.charAt(j) < '0' || str.charAt(j) > '9') break;
+            res = res * 10 + (str.charAt(j) - '0');
+            if(res > Integer.MAX_VALUE) return !negative ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+        }
+        return !negative ? (int)res : (int)-res;
+    }
+
+    // 面试题68 - I. 二叉搜索树的最近公共祖先
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+
     }
 }
