@@ -1844,6 +1844,21 @@ public class LCOF {
 
     // 面试题68 - I. 二叉搜索树的最近公共祖先
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-
+        TreeNode less, great;
+        if (p.val <= q.val) {
+            less = p;
+            great = q;
+        }
+        else {
+            less = q;
+            great = p;
+        }
+        if (less.val < root.val && great.val > root.val || less.val == root.val || great.val == root.val) {
+            return root;
+        }
+        if (great.val < root.val) {
+            return lowestCommonAncestor(root.left, p, q);
+        }
+        return lowestCommonAncestor(root.right, p, q);
     }
 }
