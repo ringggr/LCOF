@@ -1,10 +1,7 @@
 package com.JackyHou;
 
 import java.net.ServerSocket;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Stack;
+import java.util.*;
 
 public class Solution {
     // 5. 最长回文子串
@@ -258,7 +255,6 @@ public class Solution {
     }
 
     // 72. 编辑距离
-
     public int minDistance(String word1, String word2) {
         // dp[i][j] 第i个word2字符 对应第j个word1字符，至少需要编辑多少次
         // i j 不一样，替换，
@@ -400,5 +396,27 @@ public class Solution {
         return dp[s.length() - 1];
     }
 
-
+    // 2. 两数相加
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        if (l1 == null || l2 == null) {
+            return l1 == null ? l2 : l1;
+        }
+        ListNode dummyHead = new ListNode(0);
+        ListNode p = l1, q = l2, curr = dummyHead;
+        int carry = 0;
+        while (p != null || q != null) {
+            int x = (p != null) ? p.val : 0;
+            int y = (q != null) ? q.val : 0;
+            int sum = carry + x + y;
+            carry = sum / 10;
+            curr.next = new ListNode(sum % 10);
+            curr = curr.next;
+            if (p != null) p = p.next;
+            if (q != null) q = q.next;
+        }
+        if (carry > 0) {
+            curr.next = new ListNode(carry);
+        }
+        return dummyHead.next;
+    }
 }
