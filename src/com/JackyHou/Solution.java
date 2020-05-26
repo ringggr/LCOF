@@ -466,4 +466,32 @@ public class Solution {
         }
         return null;
     }
+
+    // 376 DP
+    public int wiggleMaxLength(int[] nums) {
+        if (nums.length < 2) return nums.length;
+        int[][] dp = new int[nums.length][2]; // i: 知道第i个数，0: 最多几个，1: 此数与上一位的差
+        dp[0][0] = 1;
+        for (int i = 1; i < nums.length; i++) {
+            dp[i][1] = nums[i] - nums[i - 1];
+            if (dp[i][1] == 0) {
+                dp[i][0] = dp[i - 1][0];
+                dp[i][1] = dp[i - 1][1];
+            }
+            else {
+                int t = dp[i][1] * dp[i - 1][1];
+                if (t == 0) { // 前面全是一样的
+                    dp[i][0] = 2;
+                }
+                else if (t < 0) {
+                    dp[i][0] = dp[i - 1][0] + 1;
+                } else {
+                    dp[i][0] = dp[i - 1][0];
+                }
+            }
+        }
+        return dp[dp.length - 1][0];
+    }
 }
+
+
