@@ -419,4 +419,51 @@ public class Solution {
         }
         return dummyHead.next;
     }
+
+    // 287
+    public int findDuplicate(int[] nums) {
+        int min = 1, max = nums.length - 1;
+        while (min < max) {
+            int mid = (min + max) >> 1;
+            int cnt = 0;
+            for (int num : nums) {
+                if (num <= mid) {
+                    cnt++;
+                }
+            }
+            if (cnt <= mid) {
+                min = mid + 1;
+            }
+            else {
+                max = mid;
+            }
+        }
+        return min;
+    }
+
+    // 141
+    public boolean hasCycle(ListNode head) {
+        ArrayList<ListNode> visited = new ArrayList<>();
+        while(head != null) {
+            if (visited.contains(head)) {
+                return true;
+            }
+            visited.add(head);
+            head = head.next;
+        }
+        return false;
+    }
+
+    // 142
+    public ListNode detectCycle(ListNode head) {
+        ListNode fast = head;
+        ListNode slow = head;
+        while (fast != null) {
+            if (fast.next == null) return null;
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) return fast;
+        }
+        return null;
+    }
 }
