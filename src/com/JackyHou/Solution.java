@@ -1,6 +1,7 @@
 package com.JackyHou;
 
 import java.net.ServerSocket;
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class Solution {
@@ -536,6 +537,54 @@ public class Solution {
         }
 
         return re_tag ? decodeString(res.toString()) : res.toString();
+    }
+
+    // 648
+    public String replaceWords(List<String> dict, String sentence) {
+        HashMap<Character, ArrayList<String>> map = new HashMap<>();
+        for (String root: dict) {
+            if (map.containsKey(root.charAt(0))) {
+                map.get(root.charAt(0)).add(root);
+            }
+            else {
+                ArrayList<String> temp = new ArrayList<>();
+                temp.add(root);
+                map.put(root.charAt(0), temp);
+            }
+        }
+        for (char c: map.keySet()) {
+            map.get(c).sort((a, b) -> {
+                if (a.length() == b.length()) {
+                    return a.length() - b.length();
+                }
+                return a.compareTo(b);
+            });
+        }
+        String[] words = sentence.split(" ");
+        StringBuilder res = new StringBuilder();
+        for (String word: words) {
+            if (!map.containsKey(word.charAt(0))) {
+                res.append(word).append(" ");
+            }
+            else {
+                String temp = "";
+                for (String root: map.get(word.charAt(0))) {
+                    if (root.length() > word.length()) {
+                        temp = word + " ";
+                        break;
+                    }
+                    if (root.equals(word.substring(0, root.length()))){
+                        temp = root + " ";
+                        break;
+                    }
+                }
+                if (temp.equals("")){
+                    temp = word + " ";
+                }
+                res.append(temp);
+            }
+        }
+        return res.toString().substring(0, res.length() - 1);
     }
 }
 
