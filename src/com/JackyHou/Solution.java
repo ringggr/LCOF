@@ -492,6 +492,51 @@ public class Solution {
         }
         return dp[dp.length - 1][0];
     }
+
+    // 394
+    public String decodeString(String s) {
+        StringBuilder res = new StringBuilder();
+        int pos = 0;
+        boolean re_tag = false;
+        while (pos < s.length()) {
+            char t = s.charAt(pos);
+            if (t >= '0' && t <= '9') {
+                int n = (int)(t - '0');
+                int pos_t = pos + 1;
+                while (pos_t < s.length() && Character.isDigit(s.charAt(pos_t))) {
+                    n = n * 10 + (int)(s.charAt(pos_t) - '0');
+                    pos_t++;
+                }
+                int start = pos_t + 1;
+                int end = start;
+                int left = 0;
+                for (;end < s.length(); end++) {
+                    if (s.charAt(end) == '[') {
+                        left++;
+                        re_tag = true;
+                    }
+                    if (s.charAt(end) == ']'){
+                        if(left==0) {
+                            break;
+                        }
+                        else {
+                            left--;
+                        }
+                    }
+                }
+                for(int i = 0; i < n; i++) {
+                    res.append(s.substring(start, end));
+                }
+                pos = end + 1;
+            }
+            else {
+                res.append(t);
+                pos++;
+            }
+        }
+
+        return re_tag ? decodeString(res.toString()) : res.toString();
+    }
 }
 
 
